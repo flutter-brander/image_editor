@@ -8,12 +8,14 @@ class ModalProgressIndicator extends StatelessWidget {
   final double backgroundOpacity;
 
   const ModalProgressIndicator({
+    Key? key,
     this.indicator = const CircularProgressIndicator(
       strokeWidth: 6.0,
+      color: Color(0xFF01CC99),
     ),
     this.backgroundColor = Colors.black,
     this.backgroundOpacity = _defaultOpacity,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
