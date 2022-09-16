@@ -850,39 +850,6 @@ class _SingleImageEditorState extends State<SingleImageEditor> {
                     //   },
                     // ),
                     BottomButton(
-                      icon: Icons.photo,
-                      text: 'Filter',
-                      onTap: () async {
-                        resetTransformation();
-
-                        var data = await screenshotController.capture(pixelRatio: pixelRatio);
-
-                        Uint8List? editedImage = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ImageFilters(
-                              image: data!,
-                            ),
-                          ),
-                        );
-
-                        if (editedImage == null) return;
-
-                        removedLayers.clear();
-                        undoLayers.clear();
-
-                        var layer = BackgroundLayerData(
-                          file: ImageItem(editedImage),
-                        );
-
-                        layers.add(layer);
-
-                        await layer.file.status;
-
-                        setState(() {});
-                      },
-                    ),
-                    BottomButton(
                       icon: FontAwesomeIcons.smile,
                       text: 'Emoji',
                       onTap: () async {
