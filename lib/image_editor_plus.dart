@@ -27,6 +27,7 @@ import 'package:image_editor_plus/modules/all_emojies.dart';
 import 'package:image_editor_plus/modules/text.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 
 import 'modules/colors_picker.dart';
@@ -76,12 +77,12 @@ class ImageEditor extends StatelessWidget {
         maxLength: maxLength,
       );
     } else {
-      return SingleImageEditor(
+      return SingleImageEditor(SingleImageEditorArguments(
         image: image,
         savePath: savePath,
         allowCamera: allowCamera,
         allowGallery: allowGallery,
-      );
+      ));
     }
   }
 
@@ -217,7 +218,7 @@ class _MultiImageEditorState extends State<MultiImageEditor> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => SingleImageEditor(
-                                image: image,
+                                SingleImageEditorArguments(image: image),
                               ),
                             ),
                           );
@@ -298,21 +299,27 @@ class _MultiImageEditorState extends State<MultiImageEditor> {
   final picker = ImagePicker();
 }
 
-/// Image editor with all option available
-class SingleImageEditor extends StatefulWidget {
-  final Directory? savePath;
+class SingleImageEditorArguments {
   final dynamic image;
   final List? imageList;
-  final bool allowCamera, allowGallery;
+  final Directory? savePath;
+  final bool allowCamera;
+  final bool allowGallery;
 
-  const SingleImageEditor({
-    Key? key,
-    this.savePath,
-    this.image,
+  SingleImageEditorArguments({
+    required this.image,
     this.imageList,
+    this.savePath,
     this.allowCamera = false,
     this.allowGallery = false,
-  }) : super(key: key);
+  });
+}
+
+/// Image editor with all option available
+class SingleImageEditor extends StatefulWidget {
+  final SingleImageEditorArguments arguments;
+
+  const SingleImageEditor(this.arguments, {Key? key}) : super(key: key);
 
   @override
   _SingleImageEditorState createState() => _SingleImageEditorState();
@@ -367,7 +374,7 @@ class _SingleImageEditorState extends State<SingleImageEditor> {
           setState(() {});
         },
       ).paddingSymmetric(horizontal: 8),
-      if (widget.allowGallery)
+      if (widget.arguments.allowGallery)
         IconButton(
           icon: const Icon(Icons.photo),
           onPressed: () async {
@@ -378,7 +385,7 @@ class _SingleImageEditorState extends State<SingleImageEditor> {
             loadImage(image);
           },
         ).paddingSymmetric(horizontal: 8),
-      if (widget.allowCamera)
+      if (widget.arguments.allowCamera)
         IconButton(
           icon: const Icon(Icons.camera_alt),
           onPressed: () async {
@@ -398,10 +405,13 @@ class _SingleImageEditorState extends State<SingleImageEditor> {
             isLoading = !isLoading;
           });
           var binaryIntList = await screenshotController.capture(pixelRatio: pixelRatio);
+          final directory = (await getApplicationDocumentsDirectory()).path;
+          final imgFile = File('$directory/${DateTime.now().millisecondsSinceEpoch}.png');
+          await imgFile.writeAsBytes(binaryIntList as Uint8List);
           setState(() {
             isLoading = !isLoading;
           });
-          Navigator.pop(context, binaryIntList);
+          Navigator.pop(context, imgFile.path);
         },
       ).paddingSymmetric(horizontal: 8),
     ];
@@ -409,8 +419,8 @@ class _SingleImageEditorState extends State<SingleImageEditor> {
 
   @override
   void initState() {
-    if (widget.image != null) {
-      loadImage(widget.image!);
+    if (widget.arguments.image != null) {
+      loadImage(widget.arguments.image!);
     }
 
     super.initState();
