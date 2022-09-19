@@ -77,7 +77,7 @@ class ImageEditor extends StatelessWidget {
         maxLength: maxLength,
       );
     } else {
-      return SingleImageEditor(SingleImageEditorArguments(
+      return SingleImageEditorScreen(SingleImageEditorScreenArguments(
         image: image,
         savePath: savePath,
         allowCamera: allowCamera,
@@ -217,8 +217,8 @@ class _MultiImageEditorState extends State<MultiImageEditor> {
                           var img = await Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SingleImageEditor(
-                                SingleImageEditorArguments(image: image),
+                              builder: (context) => SingleImageEditorScreen(
+                                SingleImageEditorScreenArguments(image: image),
                               ),
                             ),
                           );
@@ -299,14 +299,14 @@ class _MultiImageEditorState extends State<MultiImageEditor> {
   final picker = ImagePicker();
 }
 
-class SingleImageEditorArguments {
+class SingleImageEditorScreenArguments {
   final dynamic image;
   final List? imageList;
   final Directory? savePath;
   final bool allowCamera;
   final bool allowGallery;
 
-  SingleImageEditorArguments({
+  SingleImageEditorScreenArguments({
     required this.image,
     this.imageList,
     this.savePath,
@@ -315,23 +315,23 @@ class SingleImageEditorArguments {
   });
 }
 
-class ResultSingleImageEditor {
+class ResultSingleImageEditorScreen {
   final String filePath;
 
-  ResultSingleImageEditor(this.filePath);
+  ResultSingleImageEditorScreen(this.filePath);
 }
 
 /// Image editor with all option available
-class SingleImageEditor extends StatefulWidget {
-  final SingleImageEditorArguments arguments;
+class SingleImageEditorScreen extends StatefulWidget {
+  final SingleImageEditorScreenArguments arguments;
 
-  const SingleImageEditor(this.arguments, {Key? key}) : super(key: key);
+  const SingleImageEditorScreen(this.arguments, {Key? key}) : super(key: key);
 
   @override
-  _SingleImageEditorState createState() => _SingleImageEditorState();
+  _SingleImageEditorScreenState createState() => _SingleImageEditorScreenState();
 }
 
-class _SingleImageEditorState extends State<SingleImageEditor> {
+class _SingleImageEditorScreenState extends State<SingleImageEditorScreen> {
   ImageItem currentImage = ImageItem();
 
   Offset offset1 = Offset.zero;
@@ -417,7 +417,7 @@ class _SingleImageEditorState extends State<SingleImageEditor> {
           setState(() {
             isLoading = !isLoading;
           });
-          Navigator.pop(context, ResultSingleImageEditor(imgFile.path));
+          Navigator.pop(context, ResultSingleImageEditorScreen(imgFile.path));
         },
       ).paddingSymmetric(horizontal: 8),
     ];
