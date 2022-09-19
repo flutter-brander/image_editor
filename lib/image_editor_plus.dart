@@ -315,6 +315,12 @@ class SingleImageEditorArguments {
   });
 }
 
+class ResultSingleImageEditor {
+  final String filePath;
+
+  ResultSingleImageEditor(this.filePath);
+}
+
 /// Image editor with all option available
 class SingleImageEditor extends StatefulWidget {
   final SingleImageEditorArguments arguments;
@@ -411,7 +417,7 @@ class _SingleImageEditorState extends State<SingleImageEditor> {
           setState(() {
             isLoading = !isLoading;
           });
-          Navigator.pop(context, imgFile.path);
+          Navigator.pop(context, ResultSingleImageEditor(imgFile.path));
         },
       ).paddingSymmetric(horizontal: 8),
     ];
