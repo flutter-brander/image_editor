@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter/services.dart';
 import 'package:image_editor_plus/data/layer.dart';
 import 'package:image_editor_plus/image_editor_plus.dart';
 
@@ -26,34 +26,12 @@ class _TextEditorImageState extends State<TextEditorImage> {
       data: ThemeData.dark(),
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.black87,
+          iconTheme: IconThemeData(color: Colors.white),
+          systemOverlayStyle: SystemUiOverlayStyle.light,
+          toolbarTextStyle: TextStyle(color: Colors.white),
+          titleTextStyle: TextStyle(color: Colors.white),
           actions: <Widget>[
-            IconButton(
-              icon: Icon(FontAwesomeIcons.alignLeft,
-                  color: align == TextAlign.left ? Colors.white : Colors.white.withAlpha(80)),
-              onPressed: () {
-                setState(() {
-                  align = TextAlign.left;
-                });
-              },
-            ),
-            IconButton(
-              icon: Icon(FontAwesomeIcons.alignCenter,
-                  color: align == TextAlign.center ? Colors.white : Colors.white.withAlpha(80)),
-              onPressed: () {
-                setState(() {
-                  align = TextAlign.center;
-                });
-              },
-            ),
-            IconButton(
-              icon: Icon(FontAwesomeIcons.alignRight,
-                  color: align == TextAlign.right ? Colors.white : Colors.white.withAlpha(80)),
-              onPressed: () {
-                setState(() {
-                  align = TextAlign.right;
-                });
-              },
-            ),
             IconButton(
               icon: const Icon(Icons.check),
               onPressed: () {

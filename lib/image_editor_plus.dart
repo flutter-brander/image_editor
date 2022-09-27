@@ -95,13 +95,6 @@ class ImageEditor extends StatelessWidget {
   /// Set custom theme properties default is dark theme with white text
   static ThemeData theme = ThemeData(
     backgroundColor: Colors.black,
-    appBarTheme: const AppBarTheme(
-      backgroundColor: Colors.black87,
-      iconTheme: IconThemeData(color: Colors.white),
-      systemOverlayStyle: SystemUiOverlayStyle.light,
-      toolbarTextStyle: TextStyle(color: Colors.white),
-      titleTextStyle: TextStyle(color: Colors.white),
-    ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: Colors.black,
     ),
@@ -512,7 +505,11 @@ class _SingleImageEditorScreenState extends State<SingleImageEditorScreen> {
           Scaffold(
             key: scaf,
             appBar: AppBar(
+              backgroundColor: Colors.black87,
+              iconTheme: const IconThemeData(color: Colors.white),
               systemOverlayStyle: SystemUiOverlayStyle.light,
+              toolbarTextStyle: const TextStyle(color: Colors.white),
+              titleTextStyle: const TextStyle(color: Colors.white),
               automaticallyImplyLeading: false,
               actions: filterActions,
             ),
