@@ -338,6 +338,7 @@ class _SingleImageEditorScreenState extends State<SingleImageEditorScreen> {
   @override
   void dispose() {
     layers.clear();
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
     super.dispose();
   }
 
